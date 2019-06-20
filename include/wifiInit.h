@@ -3,6 +3,8 @@
 #include <SPIFFS.h>
 #include <FS.h>
 #include <ArduinoJson.h>
+#include <ringDisplay.h>
+
 
 //AP Configuration
 #define AP_SSID     "ESP32-SmartControl"
@@ -14,6 +16,7 @@ class wifiConfiguration{
 
     bool init();
     void printStatus();
+    bool checkConnectivity();
 
 };
 

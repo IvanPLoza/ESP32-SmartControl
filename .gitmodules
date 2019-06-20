@@ -13,3 +13,6 @@
 [submodule "lib/AutoConnect"]
 	path = lib/AutoConnect
 	url = https://github.com/Hieromon/AutoConnect.git
+[submodule "lib/Adafruit_NeoPixel"]
+	path = lib/Adafruit_NeoPixel
+	url = https://github.com/adafruit/Adafruit_NeoPixel.git

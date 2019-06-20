@@ -59,13 +59,16 @@ bool wifiConfiguration::init(){
 
         WiFi.begin(_wifiSSID, _wifiPASS);
 
-        uint8_t wifiConnectTimeout;
+        uint8_t wifiConnectTimeout = 0;
 
         while(WiFi.status() != WL_CONNECTED && wifiConnectTimeout < 255){
 
+            ringDisp_showPercentage(20, RINGDISP_BLUE);
             wifiConnectTimeout++;
             delay(30);
         }
+
+        ringDisp_turnOffAll();
 
         if(WiFi.status() == WL_CONNECTED){
 
@@ -84,6 +87,7 @@ void wifiConfiguration::printStatus(){
 
     printf("\tWiFi Status\n");
     printf("\tWiFi mode: %s\n", (wifiStatusBitMask & 0x01) ? "Access Point" : "Client");
+
     if((wifiStatusBitMask & 0x01) == 0x01){
 
         printf("\tAP SSID: %s\n", AP_SSID);
@@ -92,9 +96,41 @@ void wifiConfiguration::printStatus(){
         Serial.println(WiFi.softAPIP());   
     }
     else{
+
         printf("\tConnected to: %s\n", _wifiSSID);
         Serial.print("\tDevice IP: ");
         Serial.println(WiFi.localIP());
     }
-    printf("=================================================\n");
+    printf("\t=================================================\n");
+}
+
+bool wifiConfiguration::checkConnectivity(){
+
+    if(WiFi.status() != WL_CONNECTED){
+
+        wifiStatusBitMask = wifiStatusBitMask | 0x01;
+
+        WiFi.begin(_wifiSSID, _wifiPASS);
+
+        uint8_t wifiConnectTimeout = 0;
+
+        while(WiFi.status() != WL_CONNECTED && wifiConnectTimeout < 255){
+
+            ringDisp_showPercentage(20, RINGDISP_BLUE);
+            wifiConnectTimeout++;
+            delay(30);
+        }
+
+        ringDisp_turnOffAll();
+
+        if(WiFi.status() == WL_CONNECTED){
+
+            wifiStatusBitMask = wifiStatusBitMask & 0xFE;
+            return true;
+        }
+        else {
+
+            return false;
+        }
+    }
 }

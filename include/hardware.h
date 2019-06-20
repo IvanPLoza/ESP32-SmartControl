@@ -1,5 +1,6 @@
 #include <main.h>
 #include "SPIFFS.h"
+#include <ringDisplay.h>
 
 class hardwareConfiguration{
 
