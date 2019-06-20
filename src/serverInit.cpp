@@ -8,6 +8,8 @@ serverConfiguration server;
 String _userSSID;
 String _userPASS;
 
+bool loggedIn = false;
+
 void serverConfiguration::init(){
 
     localServer.on("/", HTTP_GET, [](AsyncWebServerRequest *request){
@@ -15,11 +17,49 @@ void serverConfiguration::init(){
         request->send(SPIFFS, "/index.html", "text/html");
     });
 
-    localServer.on("/formoid-solid-green.css", HTTP_GET, [](AsyncWebServerRequest *request){
-        request->send(SPIFFS, "/formoid-solid-green.css", "text/css");
+    localServer.on("/style.css", HTTP_GET, [](AsyncWebServerRequest *request){
+        request->send(SPIFFS, "/style.css", "text/css");
     });
 
-    localServer.on("/apinit", HTTP_GET, [](AsyncWebServerRequest *request){
+    localServer.on("/dashboard/index.html", HTTP_GET, [](AsyncWebServerRequest *request){
+
+        if(loggedIn == true){
+
+            request->send(SPIFFS, "/dashboard/index.html", "text/html");
+        }
+        else{
+
+            request->send(200, "text/plain", "You are not loged in...");
+        }
+    });
+
+    localServer.on("/login", HTTP_GET, [](AsyncWebServerRequest *request){
+ 
+            AsyncWebParameter* loginP = request->getParam(0);
+
+            if(loginP->name() == "login-username" && loginP->value() == DEVICE_USERNAME){
+                
+                loginP = request->getParam(1);
+
+                if(loginP->name() == "login-password" && loginP->value() == DEVICE_PASSWORD){
+
+                    loggedIn = true;
+
+                    request->redirect("/dashboard/index.html");
+                }
+                else {
+
+                    //PASSWORD FAILED
+                }
+            }
+            else{
+
+                //USERNAME FAILED
+            }
+            
+        });
+
+    localServer.on("/ap-init", HTTP_GET, [](AsyncWebServerRequest *request){
  
         int paramsNr = request->params();
  

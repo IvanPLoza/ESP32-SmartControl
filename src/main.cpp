@@ -14,10 +14,7 @@ void setup() {
 
   wifi.printStatus();
 
-  ringDisp_turnOffAll(); 
-
-  ringDisp_cwRun(RINGDISP_GREEN);
-  ringDisp_ccwRun(RINGDISP_GREEN);
+  server.init();
 }
 
 void loop() {

@@ -1,42 +1,50 @@
 <!DOCTYPE html>
-<html>
-<style>
-.card{
-    max-width: 400px;
-     min-height: 250px;
-     background: #02b875;
-     padding: 30px;
-     box-sizing: border-box;
-     color: #FFF;
-     margin:20px;
-     box-shadow: 0px 2px 18px -4px rgba(0,0,0,0.75);
-}
-</style>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" type="text/css" href="../style.css">
+    <title>Welcome</title>
+</head>
 <body>
 
-<div class="card">
-  <h4>The ESP32 Update web page without refresh</h4><br>
-  <h1>Sensor Value:<span id="ADCValue">0</span></h1><br>
-  <br><a href="https://circuits4you.com">Circuits4you.com</a>
-</div>
-<script>
+    <div class="main-container">
 
-setInterval(function() {
-  // Call a function repetatively with 2 Second interval
-  getData();
-}, 2000); //2000mSeconds update rate
+        <!-- HEADER -->
+        <header class="block">
+            <ul class="header-menu horizontal-list">
+                <li>
+                    <a class="header-menu-tab" href="/dashboard/index.html">Home</a>
+                </li>
+            </ul>
+            <div class="profile-menu">
+                <p>Dashboard</p>
+            </div>
+        </header>
 
-function getData() {
-  var xhttp = new XMLHttpRequest();
-  xhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-      document.getElementById("ADCValue").innerHTML =
-      this.responseText;
-    }
-  };
-  xhttp.open("GET", "readADC", true);
-  xhttp.send();
-}
-</script>
+        <div class="left-container container">
+            <div class="account block" style =" background-color: transparent;"></div>
+        </div>
+
+        <!-- MIDDLE-CONTAINER -->
+        <div class="middle-container container">
+                <div class="account block"> <!-- ACCOUNT (RIGHT-CONTAINER) -->
+                    <h2 class="titular">Sign into your device</h2>
+                    <form action = "/login">
+                        <div class="input-container">
+                            <input type="text" placeholder="Username" class="email text-input" name = "login-username">
+                            <div class="input-icon envelope-icon-acount"><span class="fontawesome-envelope scnd-font-color"></span></div>
+                        </div>
+                        <div class="input-container">
+                            <input type="text" placeholder="Password" class="password text-input" name = "login-password">
+                            <div class="input-icon password-icon"><span class="fontawesome-lock scnd-font-color"></span></div>
+                        </div>
+                        <input class="sign-in button" style = "border: none; color: #FFF; "type="submit" value="SIGN IN"/>
+                    </form>
+                </div>
+        </div>
+    </div> <!-- end main-container -->
 </body>
+
 </html>
