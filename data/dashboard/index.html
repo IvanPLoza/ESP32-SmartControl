@@ -19,7 +19,7 @@
                 </li>
             </ul>
             <div class="profile-menu">
-                <p>Dashboard</p>
+                <p>Connect to WiFi network</p>
             </div>
         </header>
 
@@ -29,22 +29,28 @@
 
         <!-- MIDDLE-CONTAINER -->
         <div class="middle-container container">
-                <div class="account block"> <!-- ACCOUNT (RIGHT-CONTAINER) -->
-                    <h2 class="titular">Sign into your device</h2>
-                    <form action = "/login">
-                        <div class="input-container">
-                            <input type="text" placeholder="Username" class="email text-input" name = "login-username">
-                            <div class="input-icon envelope-icon-acount"><span class="fontawesome-envelope scnd-font-color"></span></div>
-                        </div>
-                        <div class="input-container">
-                            <input type="text" placeholder="Password" class="password text-input" name = "login-password">
-                            <div class="input-icon password-icon"><span class="fontawesome-lock scnd-font-color"></span></div>
-                        </div>
-                        <input class="sign-in button" style = "border: none; color: #FFF; "type="submit" value="SIGN IN"/>
-                    </form>
-                </div>
+            
         </div>
-    </div> <!-- end main-container -->
+    </div><!-- end main-container -->
+    <script>
+ 
+        setInterval(function() {
+          // Call a function repetatively with 2 Second interval
+          getData();
+        }, 2000); //2000mSeconds update rate
+         
+        function getData() {
+          var xhttp = new XMLHttpRequest();
+          xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+              document.getElementById("ADCValue").innerHTML =
+              this.responseText;
+            }
+          };
+          xhttp.open("GET", "readADC", true);
+          xhttp.send();
+        }
+        </script>
 </body>
 
 </html>

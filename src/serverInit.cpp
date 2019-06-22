@@ -21,7 +21,7 @@ void serverConfiguration::init(){
         request->send(SPIFFS, "/style.css", "text/css");
     });
 
-    localServer.on("/dashboard/index.html", HTTP_GET, [](AsyncWebServerRequest *request){
+    localServer.on("/dashboard", HTTP_GET, [](AsyncWebServerRequest *request){
 
         if(loggedIn == true){
 
@@ -35,29 +35,44 @@ void serverConfiguration::init(){
 
     localServer.on("/login", HTTP_GET, [](AsyncWebServerRequest *request){
  
-            AsyncWebParameter* loginP = request->getParam(0);
+        AsyncWebParameter* loginP = request->getParam(0);
 
-            if(loginP->name() == "login-username" && loginP->value() == DEVICE_USERNAME){
+        if(loginP->name() == "login-username" && loginP->value() == DEVICE_USERNAME){
                 
-                loginP = request->getParam(1);
+            loginP = request->getParam(1);
 
-                if(loginP->name() == "login-password" && loginP->value() == DEVICE_PASSWORD){
+            if(loginP->name() == "login-password" && loginP->value() == DEVICE_PASSWORD){
 
-                    loggedIn = true;
+                loggedIn = true;
 
-                    request->redirect("/dashboard/index.html");
-                }
-                else {
-
-                    //PASSWORD FAILED
-                }
+                request->redirect("/dashboard");
             }
-            else{
+            else {
 
-                //USERNAME FAILED
+                request->send(200, "text/plain", "You typed in wrong password.");
+
+                delay(3000);
+
+                request->redirect("/");
             }
+        }
+        else{
+
+            request->send(200, "text/plain", "Incorrect username and password.");
+
+            delay(3000);
+
+            request->redirect("/");
+        }
             
-        });
+    });
+
+    localServer.on("/logout", HTTP_GET, [](AsyncWebServerRequest *request){
+
+        loggedIn = false;
+
+        request->redirect("/");
+    });
 
     localServer.on("/ap-init", HTTP_GET, [](AsyncWebServerRequest *request){
  
