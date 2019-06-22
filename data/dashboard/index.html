@@ -29,28 +29,60 @@
 
         <!-- MIDDLE-CONTAINER -->
         <div class="middle-container container">
-            
+          <div class="weather block clear"> <!-- WEATHER (MIDDLE-CONTAINER) -->
+            <h2 class="titular"><span class="icon entypo-location"></span><strong>Select network</strong></h2>
+            <ul class="next-days" id = "demo">
+                <a onclick='changeText2()'>
+                    <p class="next-days-date"><span class="day">Jonelo2</span> <span class="scnd-font-color">WPA2</span></p>
+                    <p class="next-days-temperature">25%</p>
+                </a>
+            </ul>
+        </div>
         </div>
     </div><!-- end main-container -->
-    <script>
+    <script type="text/javascript">
+
+    var list = document.getElementById('demo');
+    
+    setInterval(function() {
+      // Call a function repetatively with 2 Second interval
+      getData();
+    }, 2000); //2000mSeconds update rate
  
-        setInterval(function() {
-          // Call a function repetatively with 2 Second interval
-          getData();
-        }, 2000); //2000mSeconds update rate
-         
-        function getData() {
-          var xhttp = new XMLHttpRequest();
-          xhttp.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-              document.getElementById("ADCValue").innerHTML =
-              this.responseText;
-            }
-          };
-          xhttp.open("GET", "readADC", true);
-          xhttp.send();
+    function getData() {
+      var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+
+          var network = document.createElement("a");
+
+          network.id = this.responseText;
+          var p1 = document.createElement("p");
+          p1.className = "next-days-date";
+
+          var p2 = document.createElement("p");
+          p2.className = "next-days-temperature";
+          p2.innerText = "25%";
+
+          var s1 = document.createElement("span");
+          s1.className = "day";
+          s1.innerText = this.responseText;
+
+          var s2 = document.createElement("span");
+          s2.className = "scnd-font-color";
+          s2.innerText = "test";
+
+          p1.innerHTML += s1.outerHTML + " " + s2.outerHTML;
+          network.innerHTML +=  p1.outerHTML + p2.outerHTML;
+
+          list.appendChild(network);
         }
-        </script>
+      };
+    xhttp.open("GET", "listSSID", true);
+    xhttp.send();
+  }
+    </script>
+     
 </body>
 
 </html>

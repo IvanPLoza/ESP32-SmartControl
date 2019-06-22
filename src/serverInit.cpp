@@ -114,7 +114,34 @@ void serverConfiguration::init(){
         delay(2000);
 
         ESP.restart();
-        });
+    });
+
+    localServer.on("/listSSID", HTTP_GET, [](AsyncWebServerRequest *request){
+
+        int n = WiFi.scanNetworks();
+        Serial.println("scan done");
+
+        if (n == 0) {
+            request->send(200, "text/plane", "");
+        } 
+        else {
+            Serial.print(n);
+            Serial.println(" networks found");
+            for (int i = 0; i < n; ++i) {
+                // Print SSID and RSSI for each network found
+                Serial.print(i + 1);
+                Serial.print(": ");
+                Serial.print(WiFi.SSID(i));
+                Serial.print(" (");
+                Serial.print(WiFi.RSSI(i));
+                Serial.print(")");
+                Serial.println((WiFi.encryptionType(i) == WIFI_AUTH_OPEN)?" ":"*");
+                delay(10);
+            }
+        }
+
+        request->send(200, "text/plane", "This a test");
+    });
 
     localServer.begin();
 }
