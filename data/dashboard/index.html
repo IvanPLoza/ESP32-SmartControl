@@ -32,10 +32,7 @@
           <div class="weather block clear"> <!-- WEATHER (MIDDLE-CONTAINER) -->
             <h2 class="titular"><span class="icon entypo-location"></span><strong>Select network</strong></h2>
             <ul class="next-days" id = "demo">
-                <a onclick='changeText2()'>
-                    <p class="next-days-date"><span class="day">Jonelo2</span> <span class="scnd-font-color">WPA2</span></p>
-                    <p class="next-days-temperature">25%</p>
-                </a>
+                
             </ul>
         </div>
         </div>
@@ -47,35 +44,53 @@
     setInterval(function() {
       // Call a function repetatively with 2 Second interval
       getData();
-    }, 2000); //2000mSeconds update rate
+    }, 10000); //2000mSeconds update rate
  
     function getData() {
       var xhttp = new XMLHttpRequest();
       xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
+          
+          var oldItems = document.getElementById("demo");
 
-          var network = document.createElement("a");
+          while (oldItems.firstChild) {
 
-          network.id = this.responseText;
-          var p1 = document.createElement("p");
-          p1.className = "next-days-date";
+            oldItems.removeChild(oldItems.firstChild);
+          }
 
-          var p2 = document.createElement("p");
-          p2.className = "next-days-temperature";
-          p2.innerText = "25%";
+          var myObj = JSON.parse(this.responseText);
 
-          var s1 = document.createElement("span");
-          s1.className = "day";
-          s1.innerText = this.responseText;
+          for(var i = 0; i < myObj.length; i++){
 
-          var s2 = document.createElement("span");
-          s2.className = "scnd-font-color";
-          s2.innerText = "test";
+            if(document.getElementById(myObj[i]) == null){
 
-          p1.innerHTML += s1.outerHTML + " " + s2.outerHTML;
-          network.innerHTML +=  p1.outerHTML + p2.outerHTML;
+              var network = document.createElement("a");
+              network.id = myObj[i];
 
-          list.appendChild(network);
+              var p1 = document.createElement("p");
+              p1.className = "next-days-date";
+
+              /*var p2 = document.createElement("p");
+              p2.className = "next-days-temperature";
+              p2.innerText = "25%";*/
+
+              var s1 = document.createElement("span");
+              s1.className = "day";
+              s1.innerText = myObj[i];
+
+              /*var s2 = document.createElement("span");
+              s2.className = "scnd-font-color";
+              s2.innerText = "test";*/
+
+              /*p1.innerHTML += s1.outerHTML + " " + s2.outerHTML;
+              network.innerHTML +=  p1.outerHTML + p2.outerHTML;*/
+
+              p1.innerHTML += s1.outerHTML;
+              network.innerHTML += p1.outerHTML;
+
+              list.appendChild(network);
+            }
+          }
         }
       };
     xhttp.open("GET", "listSSID", true);

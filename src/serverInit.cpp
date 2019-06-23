@@ -118,29 +118,26 @@ void serverConfiguration::init(){
 
     localServer.on("/listSSID", HTTP_GET, [](AsyncWebServerRequest *request){
 
+        StaticJsonBuffer<200> jsonBuffer;
+        JsonArray& array1 = jsonBuffer.createArray();
+
         int n = WiFi.scanNetworks();
-        Serial.println("scan done");
+
+        String requestBuffer;
 
         if (n == 0) {
             request->send(200, "text/plane", "");
         } 
         else {
-            Serial.print(n);
-            Serial.println(" networks found");
             for (int i = 0; i < n; ++i) {
-                // Print SSID and RSSI for each network found
-                Serial.print(i + 1);
-                Serial.print(": ");
-                Serial.print(WiFi.SSID(i));
-                Serial.print(" (");
-                Serial.print(WiFi.RSSI(i));
-                Serial.print(")");
-                Serial.println((WiFi.encryptionType(i) == WIFI_AUTH_OPEN)?" ":"*");
-                delay(10);
+        
+                array1.add(WiFi.SSID(i));
             }
+
+            array1.printTo(requestBuffer);
         }
 
-        request->send(200, "text/plane", "This a test");
+        request->send(200, "text/plane", requestBuffer);
     });
 
     localServer.begin();
