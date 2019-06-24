@@ -41,10 +41,12 @@
 
     var list = document.getElementById('demo');
     
-    setInterval(function() {
+    /*setInterval(function() {
       // Call a function repetatively with 2 Second interval
       getData();
-    }, 10000); //2000mSeconds update rate
+    }, 6000); //2000mSeconds update rate*/
+
+    getData();
  
     function getData() {
       var xhttp = new XMLHttpRequest();
@@ -62,42 +64,24 @@
 
           for(var i = 0; i < myObj.length; i++){
 
-            if(document.getElementById(myObj[i]) == null){
-
-              var network = document.createElement("a");
-              network.id = myObj[i];
-
-              var p1 = document.createElement("p");
-              p1.className = "next-days-date";
-
-              /*var p2 = document.createElement("p");
-              p2.className = "next-days-temperature";
-              p2.innerText = "25%";*/
-
-              var s1 = document.createElement("span");
-              s1.className = "day";
-              s1.innerText = myObj[i];
-
-              /*var s2 = document.createElement("span");
-              s2.className = "scnd-font-color";
-              s2.innerText = "test";*/
-
-              /*p1.innerHTML += s1.outerHTML + " " + s2.outerHTML;
-              network.innerHTML +=  p1.outerHTML + p2.outerHTML;*/
-
-              p1.innerHTML += s1.outerHTML;
-              network.innerHTML += p1.outerHTML;
-
-              list.appendChild(network);
-            }
+              list.innerHTML += "<a id = '" + myObj[i] + "' onclick = 'connectToNetwork(\"" + myObj[i] + "\")'><p class = 'next-days-date'><span class = 'day'>" + myObj[i] + "</span></p></a>";
           }
         }
       };
     xhttp.open("GET", "listSSID", true);
     xhttp.send();
+
   }
-    </script>
-     
+  
+  function connectToNetwork(ssid){
+
+  var url = "connectToNetwork?ssid=" + ssid;
+  const Http = new XMLHttpRequest();
+  Http.open("GET", url, true);
+  Http.send();
+  }
+
+  </script> 
 </body>
 
 </html>

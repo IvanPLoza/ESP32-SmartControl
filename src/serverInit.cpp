@@ -140,6 +140,14 @@ void serverConfiguration::init(){
         request->send(200, "text/plane", requestBuffer);
     });
 
+    localServer.on("/connectToNetwork", HTTP_GET, [](AsyncWebServerRequest *request){
+        
+            AsyncWebParameter* p = request->getParam(0);
+
+            Serial.println(p->value());
+
+            request->send(200, "text/plane", "Works");
+    });
     localServer.begin();
 }
 

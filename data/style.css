@@ -860,6 +860,7 @@ h1, h2, p, a, span{
 					}
 					.weather .next-days-date {
 						padding-left: 20px;
+						cursor: pointer;
 					}
 					.weather .next-days-temperature {
 						float: right;
