@@ -8,6 +8,3 @@ Private project for learning, exploring and having fun with IoT technology and w
  - Local dashboard
  - User accounts
  - WiFi manager in dashboard
-
-## Additional information
-You can upload this code from Arduino IDE with ESP32 Arduino Core installed already.
