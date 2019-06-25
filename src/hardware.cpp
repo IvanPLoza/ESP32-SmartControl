@@ -34,7 +34,7 @@ void hardwareConfiguration::printStatus(){
     printf("\tDeveloped by Ivan - ivanplozancic@gmail.com\n");
     printf("\t=================================================\n");
     printf("\tHardware Check\n");
-    printf("\tSerial baud rate: %i\n", SERIAL_BAUD_RATE);
-    printf("\tSPIFFS status: %s\n", (hardwareStatusBitMask & 0x01) ? "ERROR" : "OK");
+    printf("\tSerial baud rate: \t%i\n", SERIAL_BAUD_RATE);
+    printf("\tSPIFFS status: \t%s\n", (hardwareStatusBitMask & 0x01) ? "ERROR" : "OK");
     printf("\t=================================================\n");
 }

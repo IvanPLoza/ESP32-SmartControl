@@ -64,7 +64,7 @@
 
           for(var i = 0; i < myObj.length; i++){
 
-              list.innerHTML += "<a id = '" + myObj[i] + "' onclick = 'connectToNetwork(\"" + myObj[i] + "\")'><p class = 'next-days-date'><span class = 'day'>" + myObj[i] + "</span></p></a>";
+              list.innerHTML += "<a id = '" + myObj[i] + "' href = '/connect' onclick = 'connectToNetwork(\"" + myObj[i] + "\")'><p class = 'next-days-date'><span class = 'day'>" + myObj[i] + "</span></p></a>";
           }
         }
       };

@@ -19,7 +19,7 @@
                 </li>
             </ul>
             <div class="profile-menu">
-                <p>ESP32 SmartControl</p>
+                <p>Connect to WiFi network</p>
             </div>
         </header>
 
@@ -31,10 +31,10 @@
         <div class="middle-container container">
                 <div class="account block"> <!-- ACCOUNT (RIGHT-CONTAINER) -->
                     <h2 class="titular">Sign into network</h2>
-                    <h2 class="titular">Jonelo2</h2>
-                    <form action = "/login">
+                    <h2 id = "ssid" class="titular"></h2>
+                    <form action = "/apConnect">
                         <div class="input-container">
-                            <input type="password" placeholder="Password" class="password text-input" name = "login-password">
+                            <input type="password" placeholder="Password" class="password text-input" name = "network-password">
                             <div class="input-icon password-icon"><span class="fontawesome-lock scnd-font-color"></span></div>
                         </div>
                         <input class="sign-in button" style = "border: none; color: #FFF; "type="submit" value="SIGN IN"/>
@@ -43,11 +43,20 @@
         </div>
     </div> <!-- end main-container -->
 
-    <script>
+    <script type="text/javascript">
+        
+       
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    
+                    var title = document.getElementById("ssid");
+                    title.innerHTML = this.responseText;
+                }
+            }
 
-    Http.onreadystatechange = (e) => {
-        console.log(Http.responseText)
-    }
+            xhttp.open("GET", "getSSID", true);
+            xhttp.send();
     </script>
 </body>
 

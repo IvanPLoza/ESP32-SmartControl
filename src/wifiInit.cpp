@@ -51,7 +51,7 @@ bool wifiConfiguration::init(){
 
     if(wifiStatusBitMask & 0x01 == 0x01){
 
-        WiFi.softAP(AP_SSID, AP_PASSWORD);
+        WiFi.softAP(AP_SSID, AP_PASSWORD, 0);
 
         return false;
     }
@@ -78,7 +78,7 @@ bool wifiConfiguration::init(){
 
             wifiStatusBitMask = wifiStatusBitMask | 0x01;
 
-            WiFi.softAP(AP_SSID, AP_PASSWORD);
+            WiFi.softAP(AP_SSID, AP_PASSWORD, 0);
         }
     }
 }
@@ -86,19 +86,19 @@ bool wifiConfiguration::init(){
 void wifiConfiguration::printStatus(){
 
     printf("\tWiFi Status\n");
-    printf("\tWiFi mode: %s\n", (wifiStatusBitMask & 0x01) ? "Access Point" : "Client");
+    printf("\tWiFi mode: \t%s\n", (wifiStatusBitMask & 0x01) ? "Access Point" : "Client");
 
     if((wifiStatusBitMask & 0x01) == 0x01){
 
-        printf("\tAP SSID: %s\n", AP_SSID);
-        printf("\tAP Password: %s\n", AP_PASSWORD);
-        Serial.print("\tAP IP: ");
+        printf("\tAP SSID: \t%s\n", AP_SSID);
+        printf("\tAP Password: \t%s\n", AP_PASSWORD);
+        Serial.print("\tAP IP: \t");
         Serial.println(WiFi.softAPIP());   
     }
     else{
 
-        printf("\tConnected to: %s\n", _wifiSSID);
-        Serial.print("\tDevice IP: ");
+        printf("\tConnected to: \t%s\n", _wifiSSID);
+        Serial.print("\tDevice IP: \t");
         Serial.println(WiFi.localIP());
     }
     printf("\t=================================================\n");

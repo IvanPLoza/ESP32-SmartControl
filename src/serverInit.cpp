@@ -33,6 +33,18 @@ void serverConfiguration::init(){
         }
     });
 
+    localServer.on("/connect", HTTP_GET, [](AsyncWebServerRequest *request){
+
+        if(loggedIn == true){
+
+            request->send(SPIFFS, "/connect/index.html", "text/html");
+        }
+        else{
+
+            request->send(200, "text/plain", "You are not loged in...");
+        }
+    });
+
     localServer.on("/login", HTTP_GET, [](AsyncWebServerRequest *request){
  
         AsyncWebParameter* loginP = request->getParam(0);
@@ -74,7 +86,7 @@ void serverConfiguration::init(){
         request->redirect("/");
     });
 
-    localServer.on("/ap-init", HTTP_GET, [](AsyncWebServerRequest *request){
+    localServer.on("/apConnect", HTTP_GET, [](AsyncWebServerRequest *request){
  
         int paramsNr = request->params();
  
@@ -82,11 +94,7 @@ void serverConfiguration::init(){
  
             AsyncWebParameter* p = request->getParam(i);
 
-            if(p->name() == "userSSID"){
-
-                _userSSID = p->value();
-            }
-            else if(p->name() == "userPASS"){
+            if(p->name() == "network-password"){
 
                 _userPASS = p->value();
             }
@@ -144,10 +152,16 @@ void serverConfiguration::init(){
         
             AsyncWebParameter* p = request->getParam(0);
 
-            Serial.println(p->value());
+            _userSSID = p->value();
 
-            request->send(200, "text/plane", "Works");
+            request->redirect("/connect");
     });
+
+    localServer.on("/getSSID", HTTP_GET, [](AsyncWebServerRequest *request){
+
+        request->send(200, "text/plane", _userSSID);
+    });
+
     localServer.begin();
 }
 
